@@ -25,6 +25,21 @@ void createSingleLinkedList(string judul, string pengarang, int tahunTerbit)
   tail = head;
 }
 
+int countSingleLinkedList()
+{
+  int count = 0;
+  Buku *current;
+  current = head;
+  while (current != NULL)
+  {
+    count++;
+    current = current->next;
+  }
+
+  return count;
+}
+
+
 // fungsi untuk menambahkan awal data single linked list
 void addFirst(string judul, string pengarang, int tahunTerbit)
 {
@@ -53,6 +68,29 @@ void addLast(string judul, string pengarang, int tahunTerbit)
   tail = newNode;
 }
 
+// fungsi untuk menambahkan tengah data single linked list
+void addMiddle(string judul, string pengarang, int tahunTerbit, int posisi)
+{
+  if(posisi < 1 || posisi > countSingleLinkedList()) {
+    cout << "Posisi tidak valid" << endl;
+  } else {
+    newNode = new Buku();
+    newNode->judul = judul;
+    newNode->pengarang = pengarang;
+    newNode->tahunTerbit = tahunTerbit;
+
+    current = head;
+    int nomor = 1;
+    while(nomor < posisi - 1) {
+      current = current->next;
+      nomor++;
+    }
+
+    newNode->next = current->next;
+    current->next = newNode;
+  }
+}
+
 // fungsi untuk menghapus data awal single linked list
 void removeFirst() {
   del = head;
@@ -75,6 +113,24 @@ void removeLast() {
   delete del;
 }
 
+// fungsi untuk menghapus data tengah single linked list
+void removeMiddle(int posisi) {
+  if(posisi < 1 || posisi > countSingleLinkedList()) {
+    cout << "Posisi tidak valid" << endl;
+  } else {
+    current = head;
+    int nomor = 1;
+    while(nomor < posisi - 1) {
+      current = current->next;
+      nomor++;
+    }
+
+    del = current->next;
+    current->next = del->next;
+    delete del;
+  }
+}
+
 // fungsi untuk mengubah data awal single linked list
 void changeFirst(string judul, string pengarang, int tahunTerbit) {
   head->judul = judul;
@@ -92,7 +148,7 @@ void changeLast(string judul, string pengarang, int tahunTerbit) {
 // fungsi untuk menampilkan data single linked list
 void printSingleLinkedList()
 {
-  Buku *current;
+  cout << "Jumlah Data : " << countSingleLinkedList() << endl;
   current = head;
   while (current != NULL)
   {
@@ -157,6 +213,14 @@ int main()
   cout << "\n\n";
 
   removeFirst();
+  printSingleLinkedList();
+  cout << "\n\n";
+
+  addMiddle("Dia adalah Kakakkus", "Tere Liye", 2009, 2);
+  printSingleLinkedList();
+  cout << "\n\n";
+
+  removeMiddle(0);
   printSingleLinkedList();
   cout << "\n\n";
 }
